@@ -5,6 +5,9 @@ const searchBtn = $.querySelector(".search button");
 searchBtn.addEventListener("click", () => {
   checkWeather(searchInputElem.value);
 });
+searchInputElem.addEventListener("keydown", (e) => {
+  e.code == "Enter" && checkWeather(searchInputElem.value);
+});
 
 async function checkWeather(cityName) {
   let apiKey = "6e9f98b15b9622b7458c9c7e66ba0194";
@@ -16,6 +19,7 @@ async function checkWeather(cityName) {
   let weatherData = await responce.json();
 
   weatherData.cod == 200 ? setWeatherData(weatherData) : wrongInput();
+  searchInputElem.value = "";
 }
 
 function setWeatherData(weatherObj) {
