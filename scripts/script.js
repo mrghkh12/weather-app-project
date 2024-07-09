@@ -3,7 +3,7 @@ const searchInputElem = $.querySelector(".search input");
 const searchBtn = $.querySelector(".search button");
 
 searchBtn.addEventListener("click", () => {
-  checkWeather("qazvin");
+  checkWeather("Alaska");
 });
 
 async function checkWeather(cityName) {
@@ -15,5 +15,35 @@ async function checkWeather(cityName) {
   );
   let weatherData = await responce.json();
 
-  console.log(weatherData);
+  setWeatherData(weatherData);
+}
+
+function setWeatherData(weatherObj) {
+  let weatherSection = $.querySelector(".weather");
+  console.log(weatherObj);
+  weatherSection.innerHTML = "";
+  weatherSection.insertAdjacentHTML(
+    "beforeend",
+    `            <img src="./images/${
+      weatherObj.weather[0].main
+    }.png" class="weather-icon">
+            <h1 class="temp">${Math.round(weatherObj.main.temp)}°c</h1>
+            <h2 class="city">${weatherObj.name}</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="./images/humidity.png">
+                    <div>
+                        <p class="humidity">${weatherObj.main.humidity}%</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="./images/wind.png">
+                    <div>
+                        <p class="wind">${weatherObj.wind.speed} km/h</p>
+                        <p>wind Speed</p>
+                    </div>
+                </div>
+            </div>`
+  );
 }
