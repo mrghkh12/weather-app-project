@@ -3,7 +3,7 @@ const searchInputElem = $.querySelector(".search input");
 const searchBtn = $.querySelector(".search button");
 
 searchBtn.addEventListener("click", () => {
-  checkWeather("Alaska");
+  checkWeather(searchInputElem.value);
 });
 
 async function checkWeather(cityName) {
@@ -15,12 +15,11 @@ async function checkWeather(cityName) {
   );
   let weatherData = await responce.json();
 
-  setWeatherData(weatherData);
+  weatherData.cod == 200 ? setWeatherData(weatherData) : wrongInput();
 }
 
 function setWeatherData(weatherObj) {
   let weatherSection = $.querySelector(".weather");
-  console.log(weatherObj);
   weatherSection.innerHTML = "";
   weatherSection.insertAdjacentHTML(
     "beforeend",
@@ -45,5 +44,14 @@ function setWeatherData(weatherObj) {
                     </div>
                 </div>
             </div>`
+  );
+}
+
+function wrongInput() {
+  let weatherSection = $.querySelector(".weather");
+  weatherSection.innerHTML = "";
+  weatherSection.insertAdjacentHTML(
+    "beforeend",
+    `<div class='wron-input'>Invalid city name</div>`
   );
 }
